@@ -140,5 +140,6 @@ EOF
 
 echo_stamp "Attempting to kill dirmngr"
 gpgconf --kill dirmngr
+killall -w -9 dirmngr || true
 
 echo_stamp "End of software installation"
