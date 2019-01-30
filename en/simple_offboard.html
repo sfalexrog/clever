@@ -1,0 +1,882 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Simple offboard · Clever</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Copter Express">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-richquotes/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    
+    <link rel="prev" href="mavros.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="gloss.html">
+            
+                <a href="gloss.html">
+            
+                    
+                    Glossary
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="assemble_2.html">
+            
+                <a href="assemble_2.html">
+            
+                    
+                    Clever 2 assembly
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="assemble_3.html">
+            
+                <a href="assemble_3.html">
+            
+                    
+                    Clever 3 assembly
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="4in1.html">
+            
+                <a href="4in1.html">
+            
+                    
+                    Connecting 4 in 1 ESCs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="connectortypes.html">
+            
+                <a href="connectortypes.html">
+            
+                    
+                    Types of power connectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="zap.html">
+            
+                <a href="zap.html">
+            
+                    
+                    Blanching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="setup.html">
+            
+                <a href="setup.html">
+            
+                    
+                    Initial setup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="test_connection.html">
+            
+                <a href="test_connection.html">
+            
+                    
+                    Using multimeter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="radioerrors.html">
+            
+                <a href="radioerrors.html">
+            
+                    
+                    Possible radio failures
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="fpv.html">
+            
+                <a href="fpv.html">
+            
+                    
+                    Installation of FPV
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="safety.html">
+            
+                <a href="safety.html">
+            
+                    
+                    Safety instruction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="tb.html">
+            
+                <a href="tb.html">
+            
+                    
+                    Soldering safety
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="gps.html">
+            
+                <a href="gps.html">
+            
+                    
+                    Connecting GPS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="modes.html">
+            
+                <a href="modes.html">
+            
+                    
+                    Flight modes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="firmware.html">
+            
+                <a href="firmware.html">
+            
+                    
+                    Pixhawk / Pixracer Firmware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="px4_parameters.html">
+            
+                <a href="px4_parameters.html">
+            
+                    
+                    PX4 Parameters
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="calibratePID.html">
+            
+                <a href="calibratePID.html">
+            
+                    
+                    PID Setup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="raspberry.html">
+            
+                <a href="raspberry.html">
+            
+                    
+                    Raspberry Pi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="microsd_images.html">
+            
+                <a href="microsd_images.html">
+            
+                    
+                    RPi Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="connection.html">
+            
+                <a href="connection.html">
+            
+                    
+                    RPi Connection to the Pixhawk
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" data-path="wifi.html">
+            
+                <a href="wifi.html">
+            
+                    
+                    Wi-Fi connection
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23" data-path="network.html">
+            
+                <a href="network.html">
+            
+                    
+                    Configuring Wi-Fi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24" data-path="gcs_bridge.html">
+            
+                <a href="gcs_bridge.html">
+            
+                    
+                    Using QGroundControl via Wi-Fi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25" data-path="rc.html">
+            
+                <a href="rc.html">
+            
+                    
+                    Controlling Clever from a smartphone
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.26" data-path="uart.html">
+            
+                <a href="uart.html">
+            
+                    
+                    UART settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27" data-path="web_video_server.html">
+            
+                <a href="web_video_server.html">
+            
+                    
+                    Viewing images from cameras
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.28" data-path="frames.html">
+            
+                <a href="frames.html">
+            
+                    
+                    Coordinate systems (frames)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.29" data-path="ros.html">
+            
+                <a href="ros.html">
+            
+                    
+                    ROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.30" data-path="mavros.html">
+            
+                <a href="mavros.html">
+            
+                    
+                    MAVROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.31" data-path="simple_offboard.html">
+            
+                <a href="simple_offboard.html">
+            
+                    
+                    Simple offboard
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >Simple offboard</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="simple-offboard"><a name="simple-offboard" class="plugin-anchor" href="#simple-offboard"><i class="fa fa-link" aria-hidden="true"></i></a>Simple offboard</h1>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> Documentation for the <a href="microsd_images.html">image</a>, versions, starting with <strong>0.15</strong>. For older versions refer to <a href="https://github.com/CopterExpress/clever/blob/v0.14/docs/ru/simple_offboard.md" target="_blank">documentation for version <strong>0.14</strong></a>.</p>
+</blockquote>
+<p>The <code>simple_offboard</code> module of the <code>clever</code> package is intended for simplified programming of an autonomous drone (<a href="modes.html">mode</a> <code>OFFBOARD</code>). It allows setting the desired flight tasks, and automatically transforms <a href="frames.html">the system of coordinates</a>.</p>
+<p><code>simple_offboard</code> is a high level way of interacting with the flight controller. For a more low level work, see <a href="mavros.html">mavros</a>.</p>
+<p>Main services are <code>get_telemetry</code> (receiving all telemetry), <code>navigate</code> (flying to a given point along a straight line), <code>navigate_global</code> (flying to a global point along a straight line), <code>land</code> (switching to the landing mode).</p>
+<h2 id="the-use-of-python-language"><a name="the-use-of-python-language" class="plugin-anchor" href="#the-use-of-python-language"><i class="fa fa-link" aria-hidden="true"></i></a>The use of Python language</h2>
+<p>To use the services, create proxies to them. An example of the program the declared proxies to all <code>simple_offboard</code> services:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> rospy
+<span class="hljs-keyword">from</span> clever <span class="hljs-keyword">import</span> srv
+<span class="hljs-keyword">from</span> std_srvs.srv <span class="hljs-keyword">import</span> Trigger
+
+rospy.init_node(<span class="hljs-string">&apos;flight&apos;</span>) <span class="hljs-comment"># flight &#x2013; name of your ROS node</span>
+
+<span class="hljs-comment"># Creating proxies to all services:</span>
+
+get_telemetry = rospy.ServiceProxy(<span class="hljs-string">&apos;get_telemetry&apos;</span>, srv.GetTelemetry)
+navigate = rospy.ServiceProxy(<span class="hljs-string">&apos;navigate&apos;</span>, srv.Navigate)
+navigate_global = rospy.ServiceProxy(<span class="hljs-string">&apos;navigate_global&apos;</span>, srv.NavigateGlobal)
+set_position = rospy.ServiceProxy(<span class="hljs-string">&apos;set_position&apos;</span>, srv.SetPosition)
+set_velocity = rospy.ServiceProxy(<span class="hljs-string">&apos;set_velocity&apos;</span>, srv.SetVelocity)
+set_attitude = rospy.ServiceProxy(<span class="hljs-string">&apos;set_attitude&apos;</span>, srv.SetAttitude)
+set_rates = rospy.ServiceProxy(<span class="hljs-string">&apos;set_rates&apos;</span>, srv.SetRates)
+land = rospy.ServiceProxy(<span class="hljs-string">&apos;land&apos;</span>, Trigger)
+release = rospy.ServiceProxy(<span class="hljs-string">&apos;release&apos;</span>, Trigger)
+</code></pre>
+<p>Unused proxy functions may be removed from the code.</p>
+<h2 id="api-description"><a name="api-description" class="plugin-anchor" href="#api-description"><i class="fa fa-link" aria-hidden="true"></i></a>API description</h2>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> Blank numeric parameters are set to 0.</p>
+</blockquote>
+<h3 id="gettelemetry"><a name="gettelemetry" class="plugin-anchor" href="#gettelemetry"><i class="fa fa-link" aria-hidden="true"></i></a>get_telemetry</h3>
+<p>Obtaining complete telemetry of the copter.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>frame_id</code> &#x2013; <a href="frames.html">frame</a> for values <code>x</code>, <code>y</code>, <code>z</code>, <code>vx</code>, <code>vy</code>, <code>vz</code>. Example: <code>map</code>, <code>body</code>, <code>aruco_map</code>. Default value: <code>map</code>.</li>
+</ul>
+<p>Response format:</p>
+<ul>
+<li><code>frame_id</code> &#x2014; frame;</li>
+<li><code>connected</code> &#x2013; whether there is a connection to <abbr title="Flight Control Unit flight controller">FCU</abbr>;</li>
+<li><code>armed</code> <code>armed</code> state of propellers (the propellers are armed, if true);</li>
+<li><code>mode</code> &#x2013; current <a href="modes.html">flight mode</a>;</li>
+<li><code>x, y, z</code> &#x2014; local position of the copter <em>(m)</em>;</li>
+<li><code>lat, lon</code> &#x2013; latitude, longitude <em>(degrees)</em>, [GPS] is to be available (gps.md);</li>
+<li><code>alt</code> &#x2013; altitude in the global system of coordinates (standard <a href="https://ru.wikipedia.org/wiki/WGS_84" target="_blank">WGS-84</a>, not <abbr title="Above Mean Sea Level">AMSL</abbr>!), [GPS] is to be available (gps.md);</li>
+<li><code>vx, vy, vz</code> &#x2013; copter velocity <em>(m/s)</em>;</li>
+<li><code>pitch</code> &#x2013; pitch angle <em>(radians)</em>;</li>
+<li><code>roll</code> &#x2013; roll angle <em>(radians)</em>;</li>
+<li><code>yaw</code> &#x2014; yaw angle <em>(radians)</em>;</li>
+<li><code>pitch_rate</code> &#x2014; angular pitch velocity <em>(rad/s)</em>;</li>
+<li><code>roll_rate</code> &#x2013; angular roll velocity <em>(rad/s)</em>;</li>
+<li><code>yaw_rate</code> &#x2013; angular yaw velocity <em>(rad/s)</em>;</li>
+<li><code>voltage</code> &#x2013; total battery voltage <em>(V)</em>;</li>
+<li><code>cell_voltage</code> &#x2013; battery cell voltage <em>(V)</em>.</li>
+</ul>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> Fields that are available for some reason will contain the <code>NaN</code> value.</p>
+</blockquote>
+<p>Displaying copter coordinates <code>x</code>, <code>y</code> and <code>z</code> in the local system of coordinates:</p>
+<pre><code class="lang-python">telemetry = get_telemetry()
+<span class="hljs-keyword">print</span> telemetry.x, telemetry.y, telemetry.z
+</code></pre>
+<p>Displaying copter altitude relative to <a href="aruco.md">the card of ArUco tags</a>:</p>
+<pre><code class="lang-python">telemetry = get_telemetry(frame_id=<span class="hljs-string">&apos;aruco_map&apos;</span>)
+<span class="hljs-keyword">print</span> telemetry.z
+</code></pre>
+<p>Checking global position availability:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> math
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> math.isnan(get_telemetry().lat):
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Global position presents&apos;</span>
+<span class="hljs-keyword">else</span>:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;No global position&apos;</span>
+</code></pre>
+<p>Output of current telemetry (command line):</p>
+<pre><code class="lang-(bash)">rosservice call /get_telemetry &quot;{frame_id: &apos;&apos;}&quot;
+</code></pre>
+<h3 id="navigate"><a name="navigate" class="plugin-anchor" href="#navigate"><i class="fa fa-link" aria-hidden="true"></i></a>navigate</h3>
+<p>Fly to the designated point in a straight line.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>x</code>, <code>y</code> &#x2014; coordinates <em>(m)</em>;</li>
+<li><code>yaw</code> &#x2014; yaw angle <em>(radians)</em>;</li>
+<li><code>yaw_rate</code> &#x2013; angular yaw velocity (used for setting the yaw to <code>NaN</code>) <em>(rad/s)</em>;</li>
+<li><code>speed</code> &#x2013; flight speed (setpoint speed) <em>(m/s)</em>;</li>
+<li><code>auto_arm</code> &#x2013; switch the copter to <code>OFFBOARD</code> and arm automatically (<strong>the copter will take off</strong>);</li>
+<li><code>frame_id</code> &#x2013; <a href="frames.html">system of coordinates</a> for values <code>x</code>, <code>y</code>, <code>z</code>, <code>vx</code>, <code>vy</code>, <code>vz</code>. Example: <code>map</code>, <code>body</code>, <code>aruco_map</code>. Default value: <code>map</code>.</li>
+</ul>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> To fly without changing the yaw angle, it is sufficient to set the <code>yaw</code> to <code>NaN</code> (angular velocity by default is 0).</p>
+</blockquote>
+<p>Ascending to the altitude of 1.5 m with the climb rate of 0.5 m/s:</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">0</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">1.5</span>, speed=<span class="hljs-number">0.5</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>, auto_arm=<span class="hljs-keyword">True</span>)
+</code></pre>
+<p>Flying in a straight line to point 5:0 (altitude 2) in the local system of coordinates at the speed of 0.8 m/s (yaw is set to 0):</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">5</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">3</span>, speed=<span class="hljs-number">0.8</span>)
+</code></pre>
+<p>Flying to point 5:0 without changing the yaw angle (<code>yaw</code> = <code>NaN</code>, <code>yaw_rate</code> = 0):</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">5</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">3</span>, speed=<span class="hljs-number">0.8</span>, yaw=float(<span class="hljs-string">&apos;nan&apos;</span>))
+</code></pre>
+<p>Flying 3 m to the right from the copter:</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">0</span>, y=<span class="hljs-number">-3</span>, z=<span class="hljs-number">0</span>, speed=<span class="hljs-number">1</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Turn 90 degrees counterclockwise:</p>
+<pre><code class="lang-python">navigate(yaw=math.radians(<span class="hljs-number">-90</span>), frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Flying to point 3:2 (altitude 2) in the system of coordinates <a href="aruco.md">of the marker field</a> at the speed of 1 m/s:</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">3</span>, y=<span class="hljs-number">2</span>, z=<span class="hljs-number">2</span>, speed=<span class="hljs-number">1</span>, frame_id=<span class="hljs-string">&apos;aruco_map&apos;</span>)
+</code></pre>
+<p>Rotating on the spot at the speed of 0.5 rad/s (counterclockwise):</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">0</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">0</span>, yaw=float(<span class="hljs-string">&apos;nan&apos;</span>), yaw_rate=<span class="hljs-number">0.5</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Flying 3 meters forwards at the speed of 0.5 m/s, yaw-rotating at the speed of 0.2 rad/s:</p>
+<pre><code class="lang-python">navigate(x=<span class="hljs-number">3</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">0</span>, speed=<span class="hljs-number">0.5</span>, yaw=float(<span class="hljs-string">&apos;nan&apos;</span>), yaw_rate=<span class="hljs-number">0.2</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Ascending to the altitude of 2 m (command line):</p>
+<pre><code class="lang-(bash)">rosservice call /navigate &quot;{x: 0.0, y: 0.0, z: 2, yaw: 0.0, yaw_rate: 0.0, speed: 0.5, frame_id: &apos;body&apos;, auto_arm: true}&quot;
+</code></pre>
+<h3 id="navigateglobal"><a name="navigateglobal" class="plugin-anchor" href="#navigateglobal"><i class="fa fa-link" aria-hidden="true"></i></a>navigate_global</h3>
+<p>Flying in a straight line to a point in the global system of coordinates (latitude/longitude).</p>
+<p>Parameters:</p>
+<ul>
+<li><code>lat</code>, <code>lon</code> &#x2014; latitude and longitude <em>(degrees)</em>;</li>
+<li><code>z</code> &#x2014; altitude <em>(m)</em>;</li>
+<li><code>yaw</code> &#x2014; yaw angle <em>(radians)</em>;</li>
+<li><code>yaw_rate</code> &#x2013; angular yaw velocity (used for setting the yaw to <code>NaN</code>) <em>(rad/s)</em>;</li>
+<li><code>speed</code> &#x2013; flight speed (setpoint speed) <em>(m/s)</em>;</li>
+<li><code>auto_arm</code> &#x2013; switch the copter to <code>OFFBOARD</code> and arm automatically (<strong>the copter will take off</strong>);</li>
+<li><code>frame_id</code> &#x2013; <a href="frames.html">system of coordinates</a>, given <code>z</code> &#x438; <code>yaw</code> (Default value: <code>map</code>).</li>
+</ul>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> To fly without changing the yaw angle, it is sufficient to set the <code>yaw</code> to <code>NaN</code> (angular velocity by default is 0).</p>
+</blockquote>
+<p>Flying to a global point at the speed of 5 m/s, while remaining at current altitude (<code>yaw</code> will be set to 0, the copter will face East):</p>
+<pre><code class="lang-python">navigate_global(lat=<span class="hljs-number">55.707033</span>, lon=<span class="hljs-number">37.725010</span>, z=<span class="hljs-number">0</span>, speed=<span class="hljs-number">5</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Flying to a global point without changing the yaw angle (<code>yaw</code> = <code>NaN</code>, <code>yaw_rate</code> = 0):</p>
+<pre><code class="lang-python">navigate_global(lat=<span class="hljs-number">55.707033</span>, lon=<span class="hljs-number">37.725010</span>, z=<span class="hljs-number">0</span>, speed=<span class="hljs-number">5</span>, yaw=float(<span class="hljs-string">&apos;nan&apos;</span>), frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Flying to a global point (command line):</p>
+<pre><code class="lang-(bash)">rosservice call /navigate_global &quot;{lat: 55.707033, lon: 37.725010, z: 0.0, yaw: 0.0, yaw_rate: 0.0, speed: 5.0, frame_id: &apos;body&apos;, auto_arm: false}&quot;
+</code></pre>
+<h3 id="setposition"><a name="setposition" class="plugin-anchor" href="#setposition"><i class="fa fa-link" aria-hidden="true"></i></a>set_position</h3>
+<p>Set the target by position and yaw. This service may be used to specify the continuous flow of target points, for example, for flying along complex trajectories (circular, arcuate, etc.).</p>
+<blockquote class="clearfix alert alert-success"><strong class="fa fa-2x fa-lightbulb-o"></strong>
+<p> For flying to a point in a straight line or takeoff, use the [<code>navigate</code>] higher-level service (#navigate).</p>
+</blockquote>
+<p>Parameters:</p>
+<ul>
+<li><code>x</code>, <code>y</code>, <code>z</code> &#x2014; point coordinates <em>(m)</em>;</li>
+<li><code>yaw</code> &#x2014; yaw angle <em>(radians)</em>;</li>
+<li><code>yaw_rate</code> &#x2013; angular yaw velocity (used for setting the yaw to NaN) <em>(rad/s)</em>;</li>
+<li><code>auto_arm</code> &#x2013; switch the copter to <code>OFFBOARD</code> and arm automatically (<strong>the copter will take off</strong>);</li>
+<li><code>frame_id</code> &#x2013; <a href="frames.html">system of coordinates</a>, given <code>x</code>, <code>y</code>, <code>z</code> &#x438; <code>yaw</code> (Default value: <code>map</code>).</li>
+</ul>
+<p>Hovering on the spot:</p>
+<pre><code class="lang-python">set_position(frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Assigning the target point 3 m above the current position:</p>
+<pre><code class="lang-python">set_position(x=<span class="hljs-number">0</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">3</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Assigning the target point 1 m ahead of the current position:</p>
+<pre><code class="lang-python">set_position(x=<span class="hljs-number">1</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">0</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>Rotating on the spot at the speed of 0.5 rad/s:</p>
+<pre><code class="lang-python">set_position(x=<span class="hljs-number">0</span>, y=<span class="hljs-number">0</span>, z=<span class="hljs-number">0</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>, yaw=float(<span class="hljs-string">&apos;nan&apos;</span>), yaw_rate=<span class="hljs-number">0.5</span>)
+</code></pre>
+<h3 id="setvelocity"><a name="setvelocity" class="plugin-anchor" href="#setvelocity"><i class="fa fa-link" aria-hidden="true"></i></a>set_velocity</h3>
+<p>Setting speed and yaw.</p>
+<ul>
+<li><code>vx</code>, <code>vy</code>, <code>vz</code> &#x2013; required flight speed <em>(m/s)</em>;</li>
+<li><code>yaw</code> &#x2014; yaw angle <em>(radians)</em>;</li>
+<li><code>yaw_rate</code> &#x2013; angular yaw velocity (used for setting the yaw to NaN) <em>(rad/s)</em>;</li>
+<li><code>auto_arm</code> &#x2013; switch the copter to <code>OFFBOARD</code> and arm automatically (<strong>the copter will take off</strong>);</li>
+<li><code>frame_id</code> &#x2013; <a href="frames.html">system of coordinates</a>, given <code>vx</code>, <code>vy</code>, <code>vz</code> &#x438; <code>yaw</code> (Default value: <code>map</code>).</li>
+</ul>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> Parameter <code>frame_id</code> specifies only the orientation of the resulting velocity vector, but not its length.</p>
+</blockquote>
+<p>Flying forward (relative to the copter) at the speed of 1 m/s:</p>
+<pre><code class="lang-python">set_velocity(vx=<span class="hljs-number">1</span>, vy=<span class="hljs-number">0.0</span>, vz=<span class="hljs-number">0</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<p>One of variants of flying in a circle:</p>
+<pre><code class="lang-python">set_velocity(vx=<span class="hljs-number">0.4</span>, vy=<span class="hljs-number">0.0</span>, vz=<span class="hljs-number">0</span>, yaw=float(<span class="hljs-string">&apos;nan&apos;</span>), yaw_rate=<span class="hljs-number">0.4</span>, frame_id=<span class="hljs-string">&apos;body&apos;</span>)
+</code></pre>
+<h3 id="setattitude"><a name="setattitude" class="plugin-anchor" href="#setattitude"><i class="fa fa-link" aria-hidden="true"></i></a>set_attitude</h3>
+<p>Setting pitch, roll, yaw and throttle level (approximate analogue to control in <a href="modes.html">the <code>STABILIZED</code> mode</a>). This service may be used for lower level monitoring of the copter behavior or controlling the copter, if no reliable data about its position are available.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>pitch</code>, <code>roll</code>, <code>yaw</code> &#x2013; required pitch, roll, and yaw angle <em>(radians)</em>;</li>
+<li><code>thrust</code> &#x2014; throttle level from 0 (no throttle, propellers are stopped) to 1 (full throttle).</li>
+<li><code>auto_arm</code> &#x2013; switch the copter to <code>OFFBOARD</code> and arm automatically (<strong>the copter will take off</strong>);</li>
+<li><code>frame_id</code> &#x2013; <a href="frames.html">system of coordinates</a>, given <code>yaw</code> (Default value: <code>map</code>).</li>
+</ul>
+<h3 id="setrates"><a name="setrates" class="plugin-anchor" href="#setrates"><i class="fa fa-link" aria-hidden="true"></i></a>set_rates</h3>
+<p>Setting pitch, roll, and yaw angular velocity and the throttle level (approximate analogue to control in <a href="modes.html">the <code>ACRO</code> mode</a>). This is the lowest copter control level (excluding direct control of motor rotation speed). This service may be used to automatically perform acrobatic tricks (e.g., flips).</p>
+<p>Parameters:</p>
+<ul>
+<li><code>pitch_rate</code>, <code>roll_rate</code>, <code>yaw_rate</code> &#x2013; angular pitch, roll, and yaw velocity <em>(rad/s)</em>;</li>
+<li><code>thrust</code> &#x2014; throttle level from 0 (no throttle, propellers are stopped) to 1 (full throttle).</li>
+<li><code>auto_arm</code> &#x2013; switch the copter to <code>OFFBOARD</code> and arm automatically (<strong>the copter will take off</strong>);</li>
+</ul>
+<h3 id="land"><a name="land" class="plugin-anchor" href="#land"><i class="fa fa-link" aria-hidden="true"></i></a>land</h3>
+<p>Transfer the copter to the landing <a href="modes.html">mode</a> (<code>AUTO.LAND</code> or similar).</p>
+<blockquote class="clearfix alert alert-info"><strong class="fa fa-2x fa-edit"></strong>
+<p> For automated disabling the propellers after landing <a href="px4_parameters.html">parameter PX4</a> <code>COM_DISARM_LAND</code> is to be set to a value &gt; 0.</p>
+</blockquote>
+<p>Landing the copter:</p>
+<pre><code class="lang-python">res = land()
+
+<span class="hljs-keyword">if</span> res.success:
+    <span class="hljs-keyword">print</span> <span class="hljs-string">&apos;Copter is landing&apos;</span>
+</code></pre>
+<p>Landing the copter (command line):</p>
+<pre><code class="lang-(bash)">rosservice call /land &quot;{}&quot;
+</code></pre>
+<!--
+### release
+
+Stop publishing setpoints to the copter (release control). Required to continue monitoring by means of [MAVROS](mavros.md).
+-->
+<h2 id="additional-materials"><a name="additional-materials" class="plugin-anchor" href="#additional-materials"><i class="fa fa-link" aria-hidden="true"></i></a>Additional materials</h2>
+<ul>
+<li><a href="aruco.md">Flying in the field of ArUco markers</a>.</li>
+<li><a href="snippets.md">Samples of programs and snippets</a>.</li>
+</ul>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="mavros.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: MAVROS">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Simple offboard","level":"1.31","depth":1,"previous":{"title":"MAVROS","level":"1.30","depth":1,"path":"mavros.md","ref":"mavros.md","articles":[]},"dir":"ltr"},"config":{"plugins":["youtube","richquotes@https://github.com/okalachev/gitbook-plugin-richquotes.git","yametrika","anchors","validate-links","bulk-redirect@https://github.com/okalachev/gitbook-plugin-bulk-redirect.git"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yametrika":{"id":49359238},"validate-links":{"defaultScheme":"https","local":"warn","remote":"disabled"},"youtube":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"richquotes":{},"highlight":{},"bulk-redirect":{"basepath":"","redirectsFile":"redirects.json"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{}},"theme":"default","author":"Copter Express","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Clever","language":"en","gitbook":"*","description":"Конструктор квадрокоптера «Клевер»"},"file":{"path":"simple_offboard.md","mtime":"2019-01-30T10:39:21.611Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-30T10:40:15.166Z"},"basePath":".","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-yametrika/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script type='text/javascript'>
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter49359238 = new Ya.Metrika({"id":49359238});
+                } catch(e) { }
+            });
+            var n = d.getElementsByTagName('script')[0],
+                s = d.createElement('script'),
+                f = function () {
+                    n.parentNode.insertBefore(s, n);
+                };
+
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = (d.location.protocol == 'https:' ? 'https:' : 'http:') + '//mc.yandex.ru/metrika/watch.js';
+            if (w.opera == '[object Opera]') {
+                d.addEventListener('DOMContentLoaded', f, false);
+            } else {
+                f();
+            }
+        })(document, window, 'yandex_metrika_callbacks');
+    </script>
+    <noscript>
+        <div>
+            <img src="//mc.yandex.ru/watch/49359238" style="position:absolute; left:-9999px;" alt=""/>
+        </div>
+    </noscript>
+
+    </body>
+</html>
+

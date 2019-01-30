@@ -1,0 +1,723 @@
+
+<!DOCTYPE HTML>
+<html lang="en" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>ROS · Clever</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Copter Express">
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-richquotes/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-anchors/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="mavros.html" />
+    
+    
+    <link rel="prev" href="frames.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="gloss.html">
+            
+                <a href="gloss.html">
+            
+                    
+                    Glossary
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="assemble_2.html">
+            
+                <a href="assemble_2.html">
+            
+                    
+                    Clever 2 assembly
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="assemble_3.html">
+            
+                <a href="assemble_3.html">
+            
+                    
+                    Clever 3 assembly
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="4in1.html">
+            
+                <a href="4in1.html">
+            
+                    
+                    Connecting 4 in 1 ESCs
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="connectortypes.html">
+            
+                <a href="connectortypes.html">
+            
+                    
+                    Types of power connectors
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="zap.html">
+            
+                <a href="zap.html">
+            
+                    
+                    Blanching
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="setup.html">
+            
+                <a href="setup.html">
+            
+                    
+                    Initial setup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="test_connection.html">
+            
+                <a href="test_connection.html">
+            
+                    
+                    Using multimeter
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="radioerrors.html">
+            
+                <a href="radioerrors.html">
+            
+                    
+                    Possible radio failures
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.11" data-path="fpv.html">
+            
+                <a href="fpv.html">
+            
+                    
+                    Installation of FPV
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.12" data-path="safety.html">
+            
+                <a href="safety.html">
+            
+                    
+                    Safety instruction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.13" data-path="tb.html">
+            
+                <a href="tb.html">
+            
+                    
+                    Soldering safety
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.14" data-path="gps.html">
+            
+                <a href="gps.html">
+            
+                    
+                    Connecting GPS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.15" data-path="modes.html">
+            
+                <a href="modes.html">
+            
+                    
+                    Flight modes
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.16" data-path="firmware.html">
+            
+                <a href="firmware.html">
+            
+                    
+                    Pixhawk / Pixracer Firmware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.17" data-path="px4_parameters.html">
+            
+                <a href="px4_parameters.html">
+            
+                    
+                    PX4 Parameters
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.18" data-path="calibratePID.html">
+            
+                <a href="calibratePID.html">
+            
+                    
+                    PID Setup
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.19" data-path="raspberry.html">
+            
+                <a href="raspberry.html">
+            
+                    
+                    Raspberry Pi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.20" data-path="microsd_images.html">
+            
+                <a href="microsd_images.html">
+            
+                    
+                    RPi Image
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.21" data-path="connection.html">
+            
+                <a href="connection.html">
+            
+                    
+                    RPi Connection to the Pixhawk
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.22" data-path="wifi.html">
+            
+                <a href="wifi.html">
+            
+                    
+                    Wi-Fi connection
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.23" data-path="network.html">
+            
+                <a href="network.html">
+            
+                    
+                    Configuring Wi-Fi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.24" data-path="gcs_bridge.html">
+            
+                <a href="gcs_bridge.html">
+            
+                    
+                    Using QGroundControl via Wi-Fi
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.25" data-path="rc.html">
+            
+                <a href="rc.html">
+            
+                    
+                    Controlling Clever from a smartphone
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.26" data-path="uart.html">
+            
+                <a href="uart.html">
+            
+                    
+                    UART settings
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.27" data-path="web_video_server.html">
+            
+                <a href="web_video_server.html">
+            
+                    
+                    Viewing images from cameras
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.28" data-path="frames.html">
+            
+                <a href="frames.html">
+            
+                    
+                    Coordinate systems (frames)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.29" data-path="ros.html">
+            
+                <a href="ros.html">
+            
+                    
+                    ROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.30" data-path="mavros.html">
+            
+                <a href="mavros.html">
+            
+                    
+                    MAVROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.31" data-path="simple_offboard.html">
+            
+                <a href="simple_offboard.html">
+            
+                    
+                    Simple offboard
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >ROS</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="ros"><a name="ros" class="plugin-anchor" href="#ros"><i class="fa fa-link" aria-hidden="true"></i></a>ROS</h1>
+<p>Main article: <a href="http://wiki.ros.org" target="_blank">http://wiki.ros.org</a></p>
+<p>ROS is a widely used framework for developing complex and distributed robotic systems.</p>
+<h2 id="installation"><a name="installation" class="plugin-anchor" href="#installation"><i class="fa fa-link" aria-hidden="true"></i></a>Installation</h2>
+<p>Main article: <a href="http://wiki.ros.org/kinetic/Installation/Ubuntu" target="_blank">http://wiki.ros.org/kinetic/Installation/Ubuntu</a></p>
+<p>ROS is already installed on <a href="microsd_images.html">the RPi image</a>.</p>
+<p>To use ROS on a PC, we recommend using Ubuntu Linux (or a virtual machine such as Parallels Desktop Lite](<a href="https://itunes.apple.com/ru/app/parallels-desktop-lite/id1085114709?mt=12" target="_blank">https://itunes.apple.com/ru/app/parallels-desktop-lite/id1085114709?mt=12</a>) or <a href="https://www.virtualbox.org" target="_blank">VirtualBox</a>).</p>
+<h2 id="concepts"><a name="concepts" class="plugin-anchor" href="#concepts"><i class="fa fa-link" aria-hidden="true"></i></a>Concepts</h2>
+<h3 id="nodes"><a name="nodes" class="plugin-anchor" href="#nodes"><i class="fa fa-link" aria-hidden="true"></i></a>Nodes</h3>
+<p>Main article: <a href="http://wiki.ros.org/Nodes" target="_blank">http://wiki.ros.org/Nodes</a></p>
+<p>ROS node is a special program (usually written in Python or C++) that communicates with other nodes via ROS topics and ROS services. Dividing complex robotic systems into isolated nodes provides certain advantages: reduced coupling of the code, increases re-usability and reliability.</p>
+<p>Many robotic libraries, and the driver are executed in the form of ROS-nodes.</p>
+<p>In order to turn an ordinary program into a ROS node, connect to it a <code>rospy</code> or <code>roscpp</code> library, and add the initialization code.</p>
+<p>An example of a ROS node in Python:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">import</span> rospy
+
+rospy.init_node(<span class="hljs-string">&apos;my_ros_node&apos;</span>)  <span class="hljs-comment"># the name of the ROS node</span>
+
+rospy.spin() <span class="hljs-comment"># entering an endless cycle...</span>
+</code></pre>
+<h3 id="topics"><a name="topics" class="plugin-anchor" href="#topics"><i class="fa fa-link" aria-hidden="true"></i></a>Topics</h3>
+<p>Main article: <a href="http://wiki.ros.org/Topics" target="_blank">http://wiki.ros.org/Topics</a></p>
+<p>A topic is a named data bus used by the nodes for exchanging messages. Any node can <em>post</em> a message in a random topic, and <em>subscribe</em> to an arbitrary topic.</p>
+<p>An example of posting a message of type <a href="http://docs.ros.org/api/std_msgs/html/msg/String.html" target="_blank"><code>std_msgs/String</code></a> (line) in topic <code>/foo</code> in Python:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> std_msgs.msg <span class="hljs-keyword">import</span> String
+
+<span class="hljs-comment"># ...</span>
+
+foo_pub = rospy.Publisher(<span class="hljs-string">&apos;/foo&apos;</span>, String, queue_size=<span class="hljs-number">1</span>)  <span class="hljs-comment"># creating a Publisher</span>
+foo_pub.publish(data=<span class="hljs-string">&apos;Hello, world!&apos;</span>)  <span class="hljs-comment"># posting the message</span>
+</code></pre>
+<p>An example of subscription to topic <code>/foo</code>:</p>
+<pre><code class="lang-python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">foo_callback</span><span class="hljs-params">(msg)</span>:</span>
+    <span class="hljs-keyword">print</span> msg.data
+
+<span class="hljs-comment"># Subscribing. When a message is received in topic /foo, function foo_callback will be invoked.</span>
+rospy.Subscriber(<span class="hljs-string">&apos;/foo&apos;</span>, String, foo_callback)
+</code></pre>
+<p>There is also an opportunity to work with the topics using the <code>rostopic</code> utility. For example, using the following command, one can view messages published in topic <code>/variety of the Aegean sea/state</code>:</p>
+<pre><code class="lang-(bash)">rostopic echo /mavros/state
+</code></pre>
+<h3 id="services"><a name="services" class="plugin-anchor" href="#services"><i class="fa fa-link" aria-hidden="true"></i></a>Services</h3>
+<p>Main article: <a href="http://wiki.ros.org/Services" target="_blank">http://wiki.ros.org/Services</a></p>
+<p>A service is an analogue to the function that can be called from one node, and processed in another one. The service has a name that is similar to the name of the topic, and 2 message types: request type and response type.</p>
+<p>An example of invoking a ROS service from Python:</p>
+<pre><code class="lang-python"><span class="hljs-keyword">from</span> clever.srv <span class="hljs-keyword">import</span> GetTelemetry
+
+<span class="hljs-comment"># ...</span>
+
+<span class="hljs-comment"># Creating a wrapper for the get_telemetry service of the clever package with the GetTelemetry type:</span>
+get_telemetry = rospy.ServiceProxy(<span class="hljs-string">&apos;get_telemetry&apos;</span>, srv.GetTelemetry)
+
+<span class="hljs-comment"># Invoking the service, and receiving the quadcopter telemetry:</span>
+telemetry = get_telemetry()
+</code></pre>
+<p>You can also work with the services using the <code>rosservice</code> utility. For instance, you can call service <code>/get_telemetry</code> from the command line:</p>
+<pre><code class="lang-(bash)">rosservice call /get_telemetry &quot;{frame_id: &apos;&apos;}&quot;
+</code></pre>
+<p>More examples of using the services for Clever quadcopter autonomous flights are available in the <a href="simple_offboard.html">documentation for node simple_offboard</a>.</p>
+<h2 id="working-on-several-pcs"><a name="working-on-several-pcs" class="plugin-anchor" href="#working-on-several-pcs"><i class="fa fa-link" aria-hidden="true"></i></a>Working on several PCs</h2>
+<p>Main article: <a href="http://wiki.ros.org/ROS/Tutorials/MultipleMachines" target="_blank">http://wiki.ros.org/ROS/Tutorials/MultipleMachines</a>.</p>
+<p>The advantage of using ROS is the possibility of distributing the nodes across several PCs in the network. For example, a node that recognizes an image may be run on a more powerful PC; the node that controls the copter may be run directly on a Raspberry Pi connected to the flight controller, etc.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="frames.html" class="navigation navigation-prev " aria-label="Previous page: Coordinate systems (frames)">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="mavros.html" class="navigation navigation-next " aria-label="Next page: MAVROS">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"ROS","level":"1.29","depth":1,"next":{"title":"MAVROS","level":"1.30","depth":1,"path":"mavros.md","ref":"mavros.md","articles":[]},"previous":{"title":"Coordinate systems (frames)","level":"1.28","depth":1,"path":"frames.md","ref":"frames.md","articles":[]},"dir":"ltr"},"config":{"plugins":["youtube","richquotes@https://github.com/okalachev/gitbook-plugin-richquotes.git","yametrika","anchors","validate-links","bulk-redirect@https://github.com/okalachev/gitbook-plugin-bulk-redirect.git"],"root":".","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"yametrika":{"id":49359238},"validate-links":{"defaultScheme":"https","local":"warn","remote":"disabled"},"youtube":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"richquotes":{},"highlight":{},"bulk-redirect":{"basepath":"","redirectsFile":"redirects.json"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false},"anchors":{}},"theme":"default","author":"Copter Express","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Clever","language":"en","gitbook":"*","description":"Конструктор квадрокоптера «Клевер»"},"file":{"path":"ros.md","mtime":"2019-01-30T10:39:21.607Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-30T10:40:15.166Z"},"basePath":".","book":{"language":"en"}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-yametrika/plugin.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    <script type='text/javascript'>
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter49359238 = new Ya.Metrika({"id":49359238});
+                } catch(e) { }
+            });
+            var n = d.getElementsByTagName('script')[0],
+                s = d.createElement('script'),
+                f = function () {
+                    n.parentNode.insertBefore(s, n);
+                };
+
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = (d.location.protocol == 'https:' ? 'https:' : 'http:') + '//mc.yandex.ru/metrika/watch.js';
+            if (w.opera == '[object Opera]') {
+                d.addEventListener('DOMContentLoaded', f, false);
+            } else {
+                f();
+            }
+        })(document, window, 'yandex_metrika_callbacks');
+    </script>
+    <noscript>
+        <div>
+            <img src="//mc.yandex.ru/watch/49359238" style="position:absolute; left:-9999px;" alt=""/>
+        </div>
+    </noscript>
+
+    </body>
+</html>
+
