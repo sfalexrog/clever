@@ -35,7 +35,9 @@ roscore -h
 rosversion clever
 rosversion aruco_pose
 rosversion vl53l1x
-rosversion opencv3
+# FIXME: rosversion opencv3 doesn't work - maybe use opencv_version instead?
+# rosversion opencv3
+opencv_version
 rosversion mavros
 rosversion mavros_extras
 rosversion dynamic_reconfigure

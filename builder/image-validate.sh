@@ -10,6 +10,10 @@
 
 set -ex
 
+# FIXME: use a better way to get ROS environment
+. /opt/ros/kinetic/setup.bash
+. /home/pi/catkin_ws/devel/setup.bash
+
 cd /home/pi/catkin_ws/src/clever/builder/test/
 ./tests.sh
 ./tests.py

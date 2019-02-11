@@ -24,3 +24,6 @@ import pymavlink
 from pymavlink import mavutil
 import rpi_ws281x
 import pigpio
+
+print 'cv2 build options:'
+print cv2.getBuildInformation()
