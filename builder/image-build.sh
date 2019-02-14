@@ -84,7 +84,7 @@ ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} exec ${SCRIPTS_DIR}'/image-init.sh'
 shopt -s dotglob
 for dir in ${REPO_DIR}/*; do
   # Don't try to copy image into itself
-  if [ $dir != 'images' ]; then
+  if [[ $dir != *"images" ]]; then
     ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy $dir '/home/pi/catkin_ws/src/clever/'
   fi;
 done
@@ -111,4 +111,4 @@ ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/kinetic
 # ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/kinetic-ros-clever.rosinstall' '/home/pi/ros_catkin_ws/'
 ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} exec ${SCRIPTS_DIR}'/image-ros.sh' ${REPO_URL} ${IMAGE_VERSION} false false ${NUMBER_THREADS}
 
-# ${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH}
+${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH}

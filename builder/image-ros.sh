@@ -17,6 +17,8 @@ INSTALL_ROS_PACK_SOURCES=$3
 DISCOVER_ROS_PACK=$4
 NUMBER_THREADS=$5
 
+if [ -z ${NUMBER_THREADS} ]; then NUMBER_THREADS='2'; fi
+
 echo_stamp() {
   # TEMPLATE: echo_stamp <TEXT> <TYPE>
   # TYPE: SUCCESS, ERROR, INFO
@@ -135,16 +137,18 @@ if [ "${INSTALL_ROS_PACK_SOURCES}" = "true" ]; then
   chown -Rf pi:pi /home/pi/ros_catkin_ws
 fi
 
-echo_stamp "Installing CLEVER" \
+echo_stamp "Installing CLEVER dependencies" \
 && cd /home/pi/catkin_ws/src/clever \
 && git status \
 && cd /home/pi/catkin_ws \
 && resolve_rosdep $(pwd) \
 && my_travis_retry pip install wheel \
 && my_travis_retry pip install -r /home/pi/catkin_ws/src/clever/clever/requirements.txt \
-&& source /opt/ros/kinetic/setup.bash \
-&& catkin_make -j${NUMBER_THREADS} -DCMAKE_BUILD_TYPE=Release \
-&& systemctl enable roscore \
+&& source /opt/ros/kinetic/setup.bash
+echo_stamp "Building Clever packages"
+catkin_make -j${NUMBER_THREADS} -DCMAKE_BUILD_TYPE=Release
+echo_stamp "Enabling Clever services"
+systemctl enable roscore \
 && systemctl enable clever \
 && echo_stamp "All CLEVER was installed!" "SUCCESS" \
 || (echo_stamp "CLEVER installation was failed!" "ERROR"; exit 1)
