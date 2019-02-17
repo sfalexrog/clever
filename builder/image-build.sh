@@ -23,6 +23,9 @@ REPO_DIR="${BUILDER_DIR}/repo"
 SCRIPTS_DIR="${REPO_DIR}/builder"
 IMAGES_DIR="${REPO_DIR}/images"
 
+# Import commonly used functions
+source ${SCRIPTS_DIR}/script_support/common_funcs
+
 [[ ! -d ${SCRIPTS_DIR} ]] && (echo_stamp "Directory ${SCRIPTS_DIR} doesn't exist" "ERROR"; exit 1)
 [[ ! -d ${IMAGES_DIR} ]] && mkdir ${IMAGES_DIR} && echo_stamp "Directory ${IMAGES_DIR} was created successful" "SUCCESS"
 
@@ -32,8 +35,6 @@ REPO_URL="$(cd ${REPO_DIR}; git remote --verbose | grep origin | grep fetch | cu
 REPO_NAME="$(basename -s '.git' ${REPO_URL})"
 IMAGE_NAME="${REPO_NAME}_${IMAGE_VERSION}.img"
 IMAGE_PATH="${IMAGES_DIR}/${IMAGE_NAME}"
-
-source ${SCRIPTS_DIR}/script_support/common_funcs
 
 get_image() {
   # TEMPLATE: get_image <IMAGE_PATH> <RPI_DONWLOAD_URL>
