@@ -1,0 +1,167 @@
+echo_stamp() {
+  # TEMPLATE: echo_stamp <TEXT> <TYPE>
+  # TYPE: SUCCESS, ERROR, INFO
+
+  # More info there https://www.shellhacks.com/ru/bash-colors/
+
+  TEXT="$(date '+[%Y-%m-%d %H:%M:%S]') $1"
+  TEXT="\e[1m$TEXT\e[0m" # BOLD
+
+  case "$2" in
+    SUCCESS)
+    TEXT="\e[32m${TEXT}\e[0m";; # GREEN
+    ERROR)
+    TEXT="\e[31m${TEXT}\e[0m";; # RED
+    *)
+    TEXT="\e[34m${TEXT}\e[0m";; # BLUE
+  esac
+  echo -e ${TEXT}
+}
+
+# https://gist.github.com/letmaik/caa0f6cc4375cbfcc1ff26bd4530c2a3
+# https://github.com/travis-ci/travis-build/blob/master/lib/travis/build/templates/header.sh
+my_travis_retry() {
+  local result=0
+  local count=1
+  while [ $count -le 3 ]; do
+    [ $result -ne 0 ] && {
+      echo -e "\n${ANSI_RED}The command \"$@\" failed. Retrying, $count of 3.${ANSI_RESET}\n" >&2
+    }
+    # ! { } ignores set -e, see https://stackoverflow.com/a/4073372
+    ! { "$@"; result=$?; }
+    [ $result -eq 0 ] && break
+    count=$(($count + 1))
+    sleep 1
+  done
+
+  [ $count -gt 3 ] && {
+    echo -e "\n${ANSI_RED}The command \"$@\" failed 3 times.${ANSI_RESET}\n" >&2
+  }
+
+  return $result
+}
+
+# This script doesn't work on Ubuntu because OS`s losetup does not consist --partscan (-P).
+
+# Idea: use `mount -o loop,offset`
+# https://stefanoprenna.com/blog/2014/09/22/tutorial-how-to-mount-raw-images-img-images-on-linux/
+# REPO_DIR=$(mktemp -d --suffix=.builder_repo)
+# mount -t ext4 -o loop,offset=$((94208 * 512)) image/clever_qemu_test_2_20180822_163141.img "$REPO_DIR"
+# mount -t vfat -o loop,offset=$((8192 * 512)) image/clever_qemu_test_2_20180822_163141.img "$REPO_DIR/boot"
+
+mount_image() {
+  # mount_image <IMAGE_PATH> <MOUNTPOINT>
+  # Mounts given image file (IMAGE_PATH) at MOUNTPOINT
+  local IMAGE_PATH=$1
+  local MOUNTPOINT=$2
+
+  echo_stamp "Mounting image $1 to mountpoint $2"
+  # IMAGE_LODEV will contain the /dev/loopXX device for the image
+  local IMAGE_LODEV=$(losetup -Pf $IMAGE_PATH --show)
+  # Allow system to populate devfs
+  echo_stamp "Waiting for devfs to update"
+  sleep 0.5
+
+  # /dev/loopXXp2 is the root partition of our image
+  mount "${IMAGE_LODEV}p2" ${MOUNTPOINT}
+  # /dev/loopXXp1 is the boot partition of our image
+  mount "${IMAGE_LODEV}p1" ${MOUNTPOINT}/boot
+}
+
+setup_qemu() {
+  # setup_qemu <MOUNTPOINT>
+  # Prepares userspace QEMU emulation with MOUNTPOINT being the new root
+  local MOUNTPOINT=$1
+  echo_stamp "Setting up QEMU userspace emulation for ${MOUNTPOINT}"
+
+  local QEMU_PATH="${MOUNTPOINT}/usr/bin/qemu-arm-static"
+  local QEMU_WRAPPER_PATH="${MOUNTPOINT}/usr/bin/qemu-wrapper"
+
+  if [ ! -f ${QEMU_PATH} ]; then
+    echo_stamp "Copying QEMU into the image"
+    cp './qemu-wrapper' ${QEMU_WRAPPER_PATH}
+    cp './qemu-arm-static' ${QEMU_PATH}
+  else echo_stamp "QEMU is already installed"
+  fi
+
+  echo_stamp "Registering qemu in the system"
+  local REGISTER=':arm:M::\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x28\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff:/usr/bin/qemu-wrapper:'  
+  mount binfmt_misc -t binfmt_misc /proc/sys/fs/binfmt_misc || true
+  echo ${REGISTER} > /proc/sys/fs/binfmt_misc/register || true
+}
+
+
+run_in_chroot() {
+  # run_in_chroot <IMAGE_PATH> [<EXECUTE_FILE> [...]]
+
+  local MOUNTPOINT="/mnt"
+  # Mount image automatically if it isn't yet
+  local DID_MOUNT_IMAGE=false
+  if [[ $(mount | grep /mnt | wc -c) == "0" ]]; then
+    mount_image $1 ${MOUNTPOINT}
+    DID_MOUNT_IMAGE=true
+  fi
+
+  echo_stamp "Binding system dirs"
+
+  echo_stamp "Mounting /proc in chroot... "
+  if [ ! -d ${MOUNTPOINT}/proc ]; then
+    mkdir -p ${MOUNTPOINT}/proc;
+  fi
+  mount -t proc -o nosuid,noexec,nodev proc ${MOUNTPOINT}/proc
+  echo_stamp "Mounted /proc" "SUCCESS"
+
+  echo_stamp "Mounting /sys in chroot... "
+  if [ ! -d ${MOUNTPOINT}/sys ]; then
+    mkdir -p ${MOUNTPOINT}/sys;
+  fi
+  mount -t sysfs -o nosuid,noexec,nodev sysfs ${MOUNTPOINT}/sys
+  echo_stamp "Mounted /sys" "SUCCESS"
+
+  echo_stamp "Mounting /dev/ and /dev/pts in chroot... "
+  mkdir -p -m 755 ${MOUNTPOINT}/dev/pts
+  mount -t devtmpfs -o mode=0755,nosuid devtmpfs ${MOUNTPOINT}/dev
+  mount -t devpts -o gid=5,mode=620 devpts ${MOUNTPOINT}/dev/pts
+  echo_stamp "Mounted /dev and /dev/pts" "SUCCESS"
+
+  echo_stamp "Copy DNS records"
+  mount --bind /etc/resolv.conf "${MOUNTPOINT}/etc/resolv.conf"
+
+  setup_qemu ${MOUNTPOINT}
+      
+  capsh "--chroot=${MOUNTPOINT}/" -- < $2
+
+  echo_stamp "Unbinding system dirs"
+  umount -l "${MOUNTPOINT}/etc/resolv.conf"
+  umount -l "${MOUNTPOINT}/sys"
+  umount -l "${MOUNTPOINT}/dev/pts"
+  umount -l "${MOUNTPOINT}/dev"
+  umount -l "${MOUNTPOINT}/proc"
+  echo_stamp "Unmounting complete" "SUCCESS"
+  if ${DID_MOUNT_IMAGE}; then
+    umount_image ${MOUNTPOINT} ${DEV_IMAGE}
+  fi
+}
+
+umount_image() {
+  # TEMPLATE: umount_image <MOUNT_POINT> <DEV_IMAGE>
+
+  echo_stamp "Unmount chroot rootfs and boot partition: $1"
+  umount_ok=false
+  # Repeat 5 times
+  for i in {1..5}; do
+    umount -fR $1 \
+    && umount_ok=true && break \
+    || (echo_stamp "Failed #$i (try 5 times)" "ERROR"; echo "$1 is still used by the following processes: "; lsof +D $1; sleep 2)
+  done
+  [[ "$umount_ok" == true ]] && echo_stamp "OK" "SUCCESS" \
+  || (echo_stamp "Umount loop-image was failed" "ERROR"; exit 1)
+# FIXME: cleanup loopback devices?
+#  losetup -d $2
+}
+
+export -f echo_stamp
+export -f my_travis_retry
+export -f run_in_chroot
+export -f mount_image
+export -f umount_image

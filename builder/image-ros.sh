@@ -9,64 +9,18 @@
 # Author: Artem Smirnov <urpylka@gmail.com>
 #
 
-set -e # Exit immidiately on non-zero result
+set -ev # Exit immidiately on non-zero result
 
-REPO=$1
-REF=$2
-INSTALL_ROS_PACK_SOURCES=$3
-DISCOVER_ROS_PACK=$4
-NUMBER_THREADS=$5
-
-if [ -z ${NUMBER_THREADS} ]; then NUMBER_THREADS='2'; fi
-
-echo_stamp() {
-  # TEMPLATE: echo_stamp <TEXT> <TYPE>
-  # TYPE: SUCCESS, ERROR, INFO
-
-  # More info there https://www.shellhacks.com/ru/bash-colors/
-
-  TEXT="$(date '+[%Y-%m-%d %H:%M:%S]') $1"
-  TEXT="\e[1m$TEXT\e[0m" # BOLD
-
-  case "$2" in
-    SUCCESS)
-    TEXT="\e[32m${TEXT}\e[0m";; # GREEN
-    ERROR)
-    TEXT="\e[31m${TEXT}\e[0m";; # RED
-    *)
-    TEXT="\e[34m${TEXT}\e[0m";; # BLUE
-  esac
-  echo -e ${TEXT}
-}
-
-# https://gist.github.com/letmaik/caa0f6cc4375cbfcc1ff26bd4530c2a3
-# https://github.com/travis-ci/travis-build/blob/master/lib/travis/build/templates/header.sh
-my_travis_retry() {
-  local result=0
-  local count=1
-  while [ $count -le 3 ]; do
-    [ $result -ne 0 ] && {
-      echo -e "\n${ANSI_RED}The command \"$@\" failed. Retrying, $count of 3.${ANSI_RESET}\n" >&2
-    }
-    # ! { } ignores set -e, see https://stackoverflow.com/a/4073372
-    ! { "$@"; result=$?; }
-    [ $result -eq 0 ] && break
-    count=$(($count + 1))
-    sleep 1
-  done
-
-  [ $count -gt 3 ] && {
-    echo -e "\n${ANSI_RED}The command \"$@\" failed 3 times.${ANSI_RESET}\n" >&2
-  }
-
-  return $result
-}
+INSTALL_ROS_PACK_SOURCES=false
+DISCOVER_ROS_PACK=false
+# FIXME: use something more reliable to detect number of cores
+NUMBER_THREADS="2"
 
 # TODO: 'kinetic-rosdep-clever.yaml' should add only if we use our repo?
-echo_stamp "Init rosdep" \
-&& rosdep init \
-&& echo "yaml file:///etc/ros/rosdep/kinetic-rosdep-clever.yaml" >> /etc/ros/rosdep/sources.list.d/20-default.list \
-&& rosdep update
+echo_stamp "Init rosdep"
+rosdep init
+echo "yaml file:///etc/ros/rosdep/kinetic-rosdep-clever.yaml" >> /etc/ros/rosdep/sources.list.d/20-default.list
+rosdep update
 
 echo_stamp "Populate rosdep for ROS user"
 sudo -u pi rosdep update
@@ -137,21 +91,20 @@ if [ "${INSTALL_ROS_PACK_SOURCES}" = "true" ]; then
   chown -Rf pi:pi /home/pi/ros_catkin_ws
 fi
 
-echo_stamp "Installing CLEVER dependencies" \
-&& cd /home/pi/catkin_ws/src/clever \
-&& git status \
-&& cd /home/pi/catkin_ws \
-&& resolve_rosdep $(pwd) \
-&& my_travis_retry pip install wheel \
-&& my_travis_retry pip install -r /home/pi/catkin_ws/src/clever/clever/requirements.txt \
-&& source /opt/ros/kinetic/setup.bash
+echo_stamp "Installing CLEVER dependencies"
+cd /home/pi/catkin_ws/src/clever
+git status
+cd /home/pi/catkin_ws
+resolve_rosdep $(pwd)
+my_travis_retry pip install wheel
+my_travis_retry pip install -r /home/pi/catkin_ws/src/clever/clever/requirements.txt
+source /opt/ros/kinetic/setup.bash
 echo_stamp "Building Clever packages"
 catkin_make -j${NUMBER_THREADS} -DCMAKE_BUILD_TYPE=Release
 echo_stamp "Enabling Clever services"
-systemctl enable roscore \
-&& systemctl enable clever \
-&& echo_stamp "All CLEVER was installed!" "SUCCESS" \
-|| (echo_stamp "CLEVER installation was failed!" "ERROR"; exit 1)
+systemctl enable roscore
+systemctl enable clever
+echo_stamp "All CLEVER was installed!" "SUCCESS"
 
 echo_stamp "Build CLEVER documentation"
 cd /home/pi/catkin_ws/src/clever
@@ -171,8 +124,8 @@ apt-get install -y --no-install-recommends \
     ros-kinetic-opencv3=3.3.1neon-0stretch
 
 # TODO move GeographicLib datasets to Mavros debian package
-echo_stamp "Install GeographicLib datasets (needs for mavros)" \
-&& wget -qO- https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh | bash
+echo_stamp "Install GeographicLib datasets (needs for mavros)"
+wget -qO- https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh | bash
 
 echo_stamp "Change permissions for catkin_ws"
 chown -Rf pi:pi /home/pi/catkin_ws
@@ -191,7 +144,7 @@ EOF
 # Restore original sources.list
 #mv /var/sources.list.bak /etc/apt/sources.list
 # Clean apt cache
-apt-get clean -qq > /dev/null
+apt-get clean
 # Remove local mirror repository key
 #apt-key del COEX-MIRROR
 

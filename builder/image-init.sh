@@ -8,34 +8,15 @@
 # Author: Artem Smirnov <urpylka@gmail.com>
 #
 
-set -e # Exit immidiately on non-zero result
-
-echo_stamp() {
-  # TEMPLATE: echo_stamp <TEXT> <TYPE>
-  # TYPE: SUCCESS, ERROR, INFO
-
-  # More info there https://www.shellhacks.com/ru/bash-colors/
-
-  TEXT="$(date '+[%Y-%m-%d %H:%M:%S]') $1"
-  TEXT="\e[1m$TEXT\e[0m" # BOLD
-
-  case "$2" in
-    SUCCESS)
-    TEXT="\e[32m${TEXT}\e[0m";; # GREEN
-    ERROR)
-    TEXT="\e[31m${TEXT}\e[0m";; # RED
-    *)
-    TEXT="\e[34m${TEXT}\e[0m";; # BLUE
-  esac
-  echo -e ${TEXT}
-}
+set -ev # Exit immidiately on non-zero result
 
 echo_stamp "Write CLEVER information"
 
+# FIXME: version information doesn't work for now
 # Clever image version
-echo "$1" >> /etc/clever_version
+# echo "$1" >> /etc/clever_version
 # Origin image file name
-echo "${2%.*}" >> /etc/clever_origin
+# echo "${2%.*}" >> /etc/clever_origin
 
 echo_stamp "Write magic script to /etc/rc.local"
 MAGIC_SCRIPT="sudo /root/init_rpi.sh; sudo sed -i '/sudo \\\/root\\\/init_rpi.sh/d' /etc/rc.local && sudo reboot"

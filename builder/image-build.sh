@@ -10,32 +10,13 @@
 #
 
 set -e # Exit immidiately on non-zero result
+set -v # Echo commands to the terminal
 
 SOURCE_IMAGE="https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2018-06-29/2018-06-27-raspbian-stretch-lite.zip"
 
 export DEBIAN_FRONTEND=${DEBIAN_FRONTEND:='noninteractive'}
 export LANG=${LANG:='C.UTF-8'}
 export LC_ALL=${LC_ALL:='C.UTF-8'}
-
-echo_stamp() {
-  # TEMPLATE: echo_stamp <TEXT> <TYPE>
-  # TYPE: SUCCESS, ERROR, INFO
-
-  # More info there https://www.shellhacks.com/ru/bash-colors/
-
-  TEXT="$(date '+[%Y-%m-%d %H:%M:%S]') $1"
-  TEXT="\e[1m$TEXT\e[0m" # BOLD
-
-  case "$2" in
-    SUCCESS)
-    TEXT="\e[32m${TEXT}\e[0m";; # GREEN
-    ERROR)
-    TEXT="\e[31m${TEXT}\e[0m";; # RED
-    *)
-    TEXT="\e[34m${TEXT}\e[0m";; # BLUE
-  esac
-  echo -e ${TEXT}
-}
 
 BUILDER_DIR="/builder"
 REPO_DIR="${BUILDER_DIR}/repo"
@@ -51,6 +32,8 @@ REPO_URL="$(cd ${REPO_DIR}; git remote --verbose | grep origin | grep fetch | cu
 REPO_NAME="$(basename -s '.git' ${REPO_URL})"
 IMAGE_NAME="${REPO_NAME}_${IMAGE_VERSION}.img"
 IMAGE_PATH="${IMAGES_DIR}/${IMAGE_NAME}"
+
+source ${SCRIPTS_DIR}/script_support/common_funcs
 
 get_image() {
   # TEMPLATE: get_image <IMAGE_PATH> <RPI_DONWLOAD_URL>
@@ -75,40 +58,47 @@ get_image ${IMAGE_PATH} ${SOURCE_IMAGE}
 # Make free space
 ${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH} max '7G'
 
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/init_rpi.sh' '/root/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/hardware_setup.sh' '/root/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} exec ${SCRIPTS_DIR}'/image-init.sh' ${IMAGE_VERSION} ${SOURCE_IMAGE}
+mount_image ${IMAGE_PATH} /mnt
 
+# ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/init_rpi.sh' '/root/'
+# ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/hardware_setup.sh' '/root/'
+run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-init.sh' ${IMAGE_VERSION} ${SOURCE_IMAGE}
+
+# FIXME: use symlinks instead of copies.
+# Monkey
+cp "${SCRIPTS_DIR}/assets/monkey" /mnt/root/
+# Butterfly
+cp "${SCRIPTS_DIR}/assets/butterfly.service" /mnt/lib/systemd/system/
+cp "${SCRIPTS_DIR}/assets/butterfly.socket" /mnt/lib/systemd/system/
+cp "${SCRIPTS_DIR}/assets/monkey.service" /mnt/lib/systemd/system/
+# software install
+run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-software.sh'
+# network setup
+run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-network.sh'
+
+# If RPi then use a one thread to build a ROS package on RPi, else use all
+# [[ $(arch) == 'armv7l' ]] && NUMBER_THREADS=1 || NUMBER_THREADS=$(nproc --all)
+# Clever
 # Copy cloned repository to the image
 # Include dotfiles in globs (asterisks)
+mkdir -p /mnt/home/pi/catkin_ws/src/clever/
 shopt -s dotglob
 for dir in ${REPO_DIR}/*; do
   # Don't try to copy image into itself
   if [[ $dir != *"images" ]]; then
-    ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy $dir '/home/pi/catkin_ws/src/clever/'
+    cp -r $dir /mnt/home/pi/catkin_ws/src/clever/
   fi;
 done
 
-# Monkey
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/monkey' '/root/'
+# FIXME: use symlinks instead of copies (relative paths?)
+cp "${SCRIPTS_DIR}/assets/clever.service" "/mnt/lib/systemd/system/"
+cp "${SCRIPTS_DIR}/assets/roscore.env" "/mnt/lib/systemd/system/"
+cp "${SCRIPTS_DIR}/assets/roscore.service" "/mnt/lib/systemd/system/"
+mkdir -p "/mnt/etc/ros/rosdep/" && cp "${SCRIPTS_DIR}/assets/kinetic-rosdep-clever.yaml" "/mnt/etc/ros/rosdep/"
+cp "${SCRIPTS_DIR}/assets/clever.service" "/mnt/lib/systemd/system/"
 
-# Butterfly
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/butterfly.service' '/lib/systemd/system/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/butterfly.socket' '/lib/systemd/system/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/monkey.service' '/lib/systemd/system/'
-# software install
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} exec ${SCRIPTS_DIR}'/image-software.sh'
-# network setup
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} exec ${SCRIPTS_DIR}'/image-network.sh'
+run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-ros.sh'
 
-# If RPi then use a one thread to build a ROS package on RPi, else use all
-[[ $(arch) == 'armv7l' ]] && NUMBER_THREADS=1 || NUMBER_THREADS=$(nproc --all)
-# Clever
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/clever.service' '/lib/systemd/system/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/roscore.env' '/lib/systemd/system/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/roscore.service' '/lib/systemd/system/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/kinetic-rosdep-clever.yaml' '/etc/ros/rosdep/'
-# ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/kinetic-ros-clever.rosinstall' '/home/pi/ros_catkin_ws/'
-${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} exec ${SCRIPTS_DIR}'/image-ros.sh' ${REPO_URL} ${IMAGE_VERSION} false false ${NUMBER_THREADS}
+umount_image /mnt 
 
 ${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH}
