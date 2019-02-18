@@ -45,7 +45,7 @@ STAGE1_IMAGE_NAME="clever_${STAGE1_VERSION}_stage1.img"
 # Fetch stage1 image
 
 pushd ${IMAGES_DIR}
-wget --progress=dot:giga "https://github.com/sfalexrog/clever-image-cache/releases/download/${STAGE1_VERSION}/${STAGE1_IMAGE_NAME}.zip"
+wget --progress=dot:giga "https://github.com/sfalexrog/clever-image-cache/releases/download/${STAGE1_RELEASE}/${STAGE1_IMAGE_NAME}.zip"
 unzip -p ${STAGE1_IMAGE_NAME}.zip > ${IMAGE_NAME}
 popd
 
