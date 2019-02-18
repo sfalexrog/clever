@@ -59,66 +59,69 @@ get_image() {
   || (echo_stamp "Unzipping was failed!" "ERROR"; exit 1)
 }
 
-# Build stage caches
-IMGCACHE_REPO="https://github.com/sfalexrog/clever-image-cache"
-IMGCACHE_DIR="${BUILDER_DIR}/imgcache"
+get_image ${IMAGE_PATH} ${SOURCE_IMAGE}
 
-git clone ${IMGCACHE_REPO} ${IMGCACHE_DIR}
+# Make free space
+${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH} max '7G'
 
-IMGCACHE_FILENAME="stage1_${STAGE_VERSION}"
-if [[ -z $(find ${IMGCACHE_DIR} -name ${IMGCACHE_FILENAME} ) ]]; then
-  echo_stamp "No cached build found for this stage"
-  get_image ${IMAGE_PATH} ${SOURCE_IMAGE}
+mount_image ${IMAGE_PATH} /mnt
 
-  # Make free space
-  ${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH} max '7G'
+cp ${STAGE_DIR}/assets/init_rpi.sh /mnt/root/
+cp ${STAGE_DIR}/assets/hardware_setup.sh /mnt/root/
+run_in_chroot "/mnt" ${STAGE_DIR}'/image-init.sh' ${IMAGE_VERSION} ${SOURCE_IMAGE}
 
-  mount_image ${IMAGE_PATH} /mnt
+# FIXME: use symlinks instead of copies.
+# Monkey
+cp "${STAGE_DIR}/assets/monkey" /mnt/root/
+# Butterfly
+cp "${STAGE_DIR}/assets/butterfly.service" /mnt/lib/systemd/system/
+cp "${STAGE_DIR}/assets/butterfly.socket" /mnt/lib/systemd/system/
+cp "${STAGE_DIR}/assets/monkey.service" /mnt/lib/systemd/system/
 
-  # ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/init_rpi.sh' '/root/'
-  # ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/hardware_setup.sh' '/root/'
-  cp ${STAGE_DIR}/assets/init_rpi.sh /mnt/root/
-  cp ${STAGE_DIR}/assets/hardware_setup.sh /mnt/root/
-  run_in_chroot ${IMAGE_PATH} ${STAGE_DIR}'/image-init.sh' ${IMAGE_VERSION} ${SOURCE_IMAGE}
+# software install
+run_in_chroot "/mnt" ${STAGE_DIR}'/image-software.sh'
 
-  # FIXME: use symlinks instead of copies.
-  # Monkey
-  cp "${STAGE_DIR}/assets/monkey" /mnt/root/
-  # Butterfly
-  cp "${STAGE_DIR}/assets/butterfly.service" /mnt/lib/systemd/system/
-  cp "${STAGE_DIR}/assets/butterfly.socket" /mnt/lib/systemd/system/
-  cp "${STAGE_DIR}/assets/monkey.service" /mnt/lib/systemd/system/
-  # software install
-  run_in_chroot ${IMAGE_PATH} ${STAGE_DIR}'/image-software.sh'
-  # network setup
-  run_in_chroot ${IMAGE_PATH} ${STAGE_DIR}'/image-network.sh'
+# network setup
+run_in_chroot "/mnt" ${STAGE_DIR}'/image-network.sh'
 
-  # Cleanup to save some space
-  run_in_chroot ${IMAGE_PATH} "${STAGE_DIR}/image-cleanup.sh"
+# Cleanup to save some space
+run_in_chroot "/mnt" "${STAGE_DIR}/image-cleanup.sh"
 
-  # Save some more space by shrinking the image
-  ${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH}
+# Save some more space by shrinking the image
+${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH}
 
-  umount_image /mnt
+umount_image /mnt
 
-  # Mark the image
-  echo "Built from ${IMAGE_VERSION}" > "${IMGCACHE_DIR}/${IMGCACHE_FILENAME}"
-  cd ${IMGCACHE_DIR}
-  git config --local user.name "sfalexrog"
-  git config --local user.email "sfalexrog@gmail.com"
-  git add ${IMGCACHE_FILENAME}
-  git commit -m "Added ${IMGCACHE_FILENAME}"
-  # Tag the commit so that GitHub will create a release
-  git tag ${IMGCACHE_FILENAME}
-  git push "https://sfalexrog:${GITHUB_OAUTH_TOKEN}@github.com/sfalexrog/clever-image-cache" --all
+if [[ ! -z ${GITHUB_OAUTH_TOKEN} ]]; then
+  echo_stamp "Checking whether we should upload the image"
+  # Build stage caches
+  IMGCACHE_REPO="https://github.com/sfalexrog/clever-image-cache"
+  IMGCACHE_DIR="${BUILDER_DIR}/imgcache"
+  IMGCACHE_FILENAME="stage1_${STAGE_VERSION}"
 
-  # Mark the image for deployment
-  touch ${REPO_DIR}/should_deploy_image
+  git clone ${IMGCACHE_REPO} ${IMGCACHE_DIR}
+  if [[ -z $(find ${IMGCACHE_DIR} -name ${IMGCACHE_FILENAME} ) ]]; then
+    echo_stamp "No cached build found for this stage"
+    # Mark the image
+    echo "Built from ${IMAGE_VERSION}" > "${IMGCACHE_DIR}/${IMGCACHE_FILENAME}"
+    cd ${IMGCACHE_DIR}
+    git config --local user.name "sfalexrog"
+    git config --local user.email "sfalexrog@gmail.com"
+    git add ${IMGCACHE_FILENAME}
+    git commit -m "Added ${IMGCACHE_FILENAME}"
+    # Tag the commit so that GitHub will create a release
+    git tag -a ${IMGCACHE_FILENAME} -m "Built from ${IMAGE_VERSION}"
+    git push "https://sfalexrog:${GITHUB_OAUTH_TOKEN}@github.com/sfalexrog/clever-image-cache"
+    git push "https://sfalexrog:${GITHUB_OAUTH_TOKEN}@github.com/sfalexrog/clever-image-cache" --tags
+    # Run upload script
+    export IMAGES_DIR
+    export IMAGE_NAME
+    export STAGE_DIR
+    export IMGCACHE_FILENAME
+    ${STAGE_DIR}/upload_stage1.sh
+  else
+    echo_stamp "Cached build found for this stage: ${IMGCACHE_FILENAME}"
+  fi
 else
-  # Try downloading the file
-  echo_stamp "Found build marker, downloading image"
-  wget --progress=dot:giga -O "${IMAGES_DIR}/${IMAGE_NAME}.zip"  "${IMGCACHE_REPO}/releases/download/${IMGCACHE_FILENAME}/${IMAGE_NAME}.zip"
-  unzip -p "${IMAGES_DIR}/${IMAGE_NAME}.zip" > "${IMAGES_DIR}/${IMAGE_NAME}"
-  rm "${IMAGES_DIR}/${IMAGE_NAME}.zip"
-  echo_stamp "My work here is done!"
+  echo_stamp "Not uploading image: no GITHUB_OAUTH_TOKEN"
 fi

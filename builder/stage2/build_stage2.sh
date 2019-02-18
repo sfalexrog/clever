@@ -12,8 +12,6 @@
 set -e # Exit immidiately on non-zero result
 set -v # Echo commands to the terminal
 
-SOURCE_IMAGE="https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2018-06-29/2018-06-27-raspbian-stretch-lite.zip"
-
 export DEBIAN_FRONTEND=${DEBIAN_FRONTEND:='noninteractive'}
 export LANG=${LANG:='C.UTF-8'}
 export LC_ALL=${LC_ALL:='C.UTF-8'}
@@ -21,6 +19,7 @@ export LC_ALL=${LC_ALL:='C.UTF-8'}
 BUILDER_DIR="/builder"
 REPO_DIR="${BUILDER_DIR}/repo"
 SCRIPTS_DIR="${REPO_DIR}/builder"
+STAGE_DIR="${SCRIPTS_DIR}/stage2"
 IMAGES_DIR="${REPO_DIR}/images"
 
 # Import commonly used functions
@@ -36,49 +35,25 @@ REPO_NAME="$(basename -s '.git' ${REPO_URL})"
 IMAGE_NAME="${REPO_NAME}_${IMAGE_VERSION}.img"
 IMAGE_PATH="${IMAGES_DIR}/${IMAGE_NAME}"
 
-get_image() {
-  # TEMPLATE: get_image <IMAGE_PATH> <RPI_DONWLOAD_URL>
-  local BUILD_DIR=$(dirname $1)
-  local RPI_ZIP_NAME=$(basename $2)
-  local RPI_IMAGE_NAME=$(echo ${RPI_ZIP_NAME} | sed 's/zip/img/')
+STAGE1_VERSION="$(cd ${REPO_DIR}; git log --format=%h -1 builder/stage1)"
+if [[ -z ${STAGE1_VERSION} ]]; then
+  echo_stamp "Cannot determine stage version; did you commit your changes?"
+fi
 
-  if [ ! -e "${BUILD_DIR}/${RPI_ZIP_NAME}" ]; then
-    echo_stamp "Downloading original Linux distribution"
-    wget --progress=dot:giga -O ${BUILD_DIR}/${RPI_ZIP_NAME} $2
-    echo_stamp "Downloading complete" "SUCCESS" \
-  else echo_stamp "Linux distribution already donwloaded"; fi
+STAGE1_RELEASE="stage1_${STAGE1_VERSION}"
+STAGE1_IMAGE_NAME="clever_${STAGE1_VERSION}_stage1.img"
+# Fetch stage1 image
 
-  echo_stamp "Unzipping Linux distribution image" \
-  && unzip -p ${BUILD_DIR}/${RPI_ZIP_NAME} ${RPI_IMAGE_NAME} > $1 \
-  && echo_stamp "Unzipping complete" "SUCCESS" \
-  || (echo_stamp "Unzipping was failed!" "ERROR"; exit 1)
-}
-
-get_image ${IMAGE_PATH} ${SOURCE_IMAGE}
+pushd ${IMAGES_DIR}
+wget --progress=dot:giga "https://github.com/sfalexrog/clever-image-cache/releases/download/${STAGE1_VERSION}/${STAGE1_IMAGE_NAME}.zip"
+unzip -p ${STAGE1_IMAGE_NAME}.zip > ${IMAGE_NAME}
+popd
 
 # Make free space
 ${BUILDER_DIR}/image-resize.sh ${IMAGE_PATH} max '7G'
 
 mount_image ${IMAGE_PATH} /mnt
 
-# ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/init_rpi.sh' '/root/'
-# ${BUILDER_DIR}/image-chroot.sh ${IMAGE_PATH} copy ${SCRIPTS_DIR}'/assets/hardware_setup.sh' '/root/'
-run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-init.sh' ${IMAGE_VERSION} ${SOURCE_IMAGE}
-
-# FIXME: use symlinks instead of copies.
-# Monkey
-cp "${SCRIPTS_DIR}/assets/monkey" /mnt/root/
-# Butterfly
-cp "${SCRIPTS_DIR}/assets/butterfly.service" /mnt/lib/systemd/system/
-cp "${SCRIPTS_DIR}/assets/butterfly.socket" /mnt/lib/systemd/system/
-cp "${SCRIPTS_DIR}/assets/monkey.service" /mnt/lib/systemd/system/
-# software install
-run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-software.sh'
-# network setup
-run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-network.sh'
-
-# If RPi then use a one thread to build a ROS package on RPi, else use all
-# [[ $(arch) == 'armv7l' ]] && NUMBER_THREADS=1 || NUMBER_THREADS=$(nproc --all)
 # Clever
 # Copy cloned repository to the image
 # Include dotfiles in globs (asterisks)
@@ -92,13 +67,13 @@ for dir in ${REPO_DIR}/*; do
 done
 
 # FIXME: use symlinks instead of copies (relative paths?)
-cp "${SCRIPTS_DIR}/assets/clever.service" "/mnt/lib/systemd/system/"
-cp "${SCRIPTS_DIR}/assets/roscore.env" "/mnt/lib/systemd/system/"
-cp "${SCRIPTS_DIR}/assets/roscore.service" "/mnt/lib/systemd/system/"
-mkdir -p "/mnt/etc/ros/rosdep/" && cp "${SCRIPTS_DIR}/assets/kinetic-rosdep-clever.yaml" "/mnt/etc/ros/rosdep/"
-cp "${SCRIPTS_DIR}/assets/clever.service" "/mnt/lib/systemd/system/"
+cp "${STAGE_DIR}/assets/clever.service" "/mnt/lib/systemd/system/"
+cp "${STAGE_DIR}/assets/roscore.env" "/mnt/lib/systemd/system/"
+cp "${STAGE_DIR}/assets/roscore.service" "/mnt/lib/systemd/system/"
+mkdir -p "/mnt/etc/ros/rosdep/" && cp "${STAGE_DIR}/assets/kinetic-rosdep-clever.yaml" "/mnt/etc/ros/rosdep/"
+cp "${STAGE_DIR}/assets/clever.service" "/mnt/lib/systemd/system/"
 
-run_in_chroot ${IMAGE_PATH} ${SCRIPTS_DIR}'/image-ros.sh'
+run_in_chroot "/mnt" ${STAGE_DIR}'/image-ros.sh'
 
 umount_image /mnt 
 

@@ -92,15 +92,9 @@ setup_qemu() {
 
 
 run_in_chroot() {
-  # run_in_chroot <IMAGE_PATH> [<EXECUTE_FILE> [...]]
+  # run_in_chroot <MOUNTPOINT> <SCRIPT>
 
-  local MOUNTPOINT="/mnt"
-  # Mount image automatically if it isn't yet
-  local DID_MOUNT_IMAGE=false
-  if [[ $(mount | grep /mnt | wc -c) == "0" ]]; then
-    mount_image $1 ${MOUNTPOINT}
-    DID_MOUNT_IMAGE=true
-  fi
+  local MOUNTPOINT=$1
 
   echo_stamp "Binding system dirs"
 
@@ -137,10 +131,7 @@ run_in_chroot() {
   umount -l "${MOUNTPOINT}/dev/pts"
   umount -l "${MOUNTPOINT}/dev"
   umount -l "${MOUNTPOINT}/proc"
-  echo_stamp "Unmounting complete" "SUCCESS"
-  if ${DID_MOUNT_IMAGE}; then
-    umount_image ${MOUNTPOINT} ${DEV_IMAGE}
-  fi
+  echo_stamp "Unbinding complete" "SUCCESS"
 }
 
 umount_image() {
