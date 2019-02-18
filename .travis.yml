@@ -51,10 +51,11 @@ jobs:
 #        on:
 #          branch: WIP/gitbook-autobuild
     - stage: "Stage2 build"
+      name: "ROS and Clever build"
       before_script:
         - docker pull ${DOCKER}
       script:
-        - docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER} /builder/repo/builder/stage1/build_stage2.sh
+        - docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER} /builder/repo/builder/stage2/build_stage2.sh
       before_deploy:
         - sudo chmod -R 777 *
         - cd images && zip ${IMAGE_NAME}.zip ${IMAGE_NAME}
