@@ -102,18 +102,23 @@ if [[ -z $(find ${IMGCACHE_DIR} -name ${IMGCACHE_FILENAME} ) ]]; then
   umount_image /mnt
 
   # Mark the image
-  cat "Built from ${IMAGE_VERSION}" > "${IMGCACHE_DIR}/${IMGCACHE_FILENAME}"
+  echo "Built from ${IMAGE_VERSION}" > "${IMGCACHE_DIR}/${IMGCACHE_FILENAME}"
   cd ${IMGCACHE_DIR}
+  git config --local user.name "sfalexrog"
+  git config --local user.email "sfalexrog@gmail.com"
   git add ${IMGCACHE_FILENAME}
   git commit -m "Added ${IMGCACHE_FILENAME}"
   # Tag the commit so that GitHub will create a release
   git tag ${IMGCACHE_FILENAME}
-  git push https://sfalexrog:${GITHUB_OAUTH_TOKEN}@github.com/sfalexrog/clever-image-cache"
+  git push "https://sfalexrog:${GITHUB_OAUTH_TOKEN}@github.com/sfalexrog/clever-image-cache" --all
 
+  # Mark the image for deployment
+  touch ${REPO_DIR}/should_deploy_image
 else
   # Try downloading the file
   echo_stamp "Found build marker, downloading image"
   wget --progress=dot:giga -O "${IMAGES_DIR}/${IMAGE_NAME}.zip"  "${IMGCACHE_REPO}/releases/download/${IMGCACHE_FILENAME}/${IMAGE_NAME}.zip"
   unzip -p "${IMAGES_DIR}/${IMAGE_NAME}.zip" > "${IMAGES_DIR}/${IMAGE_NAME}"
+  rm "${IMAGES_DIR}/${IMAGE_NAME}.zip"
   echo_stamp "My work here is done!"
 fi

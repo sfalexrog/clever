@@ -10,48 +10,74 @@ env:
     - IMAGE_NAME="$(basename -s '.git' ${TARGET_REPO})_${IMAGE_VERSION}.img"
 git:
   depth: 1
-matrix:
-  fast_finish: true
+jobs:
   include:
-    - name: "Raspberry Pi Image Build"
+    - stage: Stage1 build
       cache:
         directories:
         - imgcache
       before_script:
         - docker pull ${DOCKER}
-# Check if there are any cached images, copy them to our "images" directory
         - if [ -n "$(ls -A imgcache/*.zip)" ]; then mkdir -p images && cp imgcache/*.zip images; fi
       script:
-        - docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER}
+        - export STAGE_VERSION="$(git log --format=%h -1 builder/stage1)"
+        - export STAGE_NAME="clever_${STAGE_VERSION}_stage1.img"
+        - docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e GITHUB_OAUTH_TOKEN=${GITHUB_OAUTH_TOKEN} ${DOCKER} /builder/repo/builder/stage1/build_stage1.sh
       before_cache:
         - cp images/*.zip imgcache
       before_deploy:
-        # Set up git user name and tag this commit
-        - git config --local user.name "goldarte"
-        - git config --local user.email "goldartt@gmail.com"
-        - sudo chmod -R 777 *
-        - cd images && zip ${IMAGE_NAME}.zip ${IMAGE_NAME}
+        - sudo chmod -R a+rwx images
+        - cd images && zip ${STAGE_NAME}.zip ${STAGE_NAME} && mv ${STAGE_NAME}.zip ../ && cd ..
+        - if [ -f should_deploy_image ]; then export SHOULD_DEPLOY=true; else export SHOULD_DEPLOY=false; fi
       deploy:
         provider: releases
         api_key: ${GITHUB_OAUTH_TOKEN}
-        file: ${IMAGE_NAME}.zip
+        file: ${STAGE_NAME}.zip
         skip_cleanup: true
         on:
-          tags: true
-        draft: true
-    - name: "Documentation"
-      language: node_js
-      node_js:
-        - "10"
-      before_script:
-        - npm install gitbook-cli -g
-        - npm install markdownlint-cli -g
-        - gitbook -V
-        - markdownlint -V
-      script:
-        - markdownlint docs
-        - gitbook install
-        - gitbook build
+          condition: $SHOULD_DEPLOY = true
+#matrix:
+#  fast_finish: true
+#  include:
+#    - name: "Raspberry Pi Image Build"
+#      cache:
+#        directories:
+#        - imgcache
+#      before_script:
+#        - docker pull ${DOCKER}
+# Check if there are any cached images, copy them to our "images" directory
+#        - if [ -n "$(ls -A imgcache/*.zip)" ]; then mkdir -p images && cp imgcache/*.zip images; fi
+#      script:
+#        - docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER}
+#      before_cache:
+#        - cp images/*.zip imgcache
+#      before_deploy:
+        # Set up git user name and tag this commit
+#        - git config --local user.name "goldarte"
+#        - git config --local user.email "goldartt@gmail.com"
+#        - sudo chmod -R 777 *
+#        - cd images && zip ${IMAGE_NAME}.zip ${IMAGE_NAME}
+#      deploy:
+#        provider: releases
+#        api_key: ${GITHUB_OAUTH_TOKEN}
+#        file: ${IMAGE_NAME}.zip
+#        skip_cleanup: true
+#        on:
+#          tags: true
+#        draft: true
+#    - name: "Documentation"
+#      language: node_js
+#      node_js:
+#        - "10"
+#      before_script:
+#        - npm install gitbook-cli -g
+#        - npm install markdownlint-cli -g
+#        - gitbook -V
+#        - markdownlint -V
+#      script:
+#        - markdownlint docs
+#        - gitbook install
+#        - gitbook build
 # ***
 # Disable deployments for now, revisit this later
 #   --sfalexrog, 06.02.2019
