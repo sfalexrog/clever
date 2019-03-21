@@ -5,7 +5,6 @@
     <arg name="web_video_server" default="true"/>
     <arg name="rosbridge" default="true"/>
     <arg name="main_camera" default="true"/>
-    <arg name="sim_camera" default="false"/>
     <arg name="optical_flow" default="false"/>
     <arg name="aruco" default="false"/>
     <arg name="rc" default="true"/>
@@ -54,9 +53,6 @@
 
     <!-- main camera -->
     <include file="$(find clever)/launch/main_camera.launch" if="$(arg main_camera)"/>
-
-    <!-- Simulated camera (frames only) -->
-    <include file="$(find clever)/launch/sim_camera.launch" if="$(arg sim_camera)"/>
 
     <!-- rosbridge -->
     <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" if="$(eval rosbridge or rc)"/>
