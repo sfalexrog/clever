@@ -64,3 +64,12 @@ source ~/.bashrc
 ```bash
 sudo apt-get install ros-kinetic-PACKAGE
 ```
+
+## Обновление пакетов на Клевере
+
+Подключите Raspberry Pi с образом Клевера к сети и выполните:
+
+```bash
+sudo apt update
+sudo apt upgrade
+```
