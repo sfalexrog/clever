@@ -127,6 +127,8 @@ catkin_package(
 ## Build ##
 ###########
 
+add_subdirectory(src/aruco_lib)
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
@@ -140,7 +142,6 @@ add_library(aruco_pose
   src/aruco_detect.cpp
   src/aruco_map.cpp
   src/draw.cpp
-  src/compat.cpp
 )
 
 add_dependencies(${PROJECT_NAME} aruco_pose_generate_messages_cpp)
@@ -164,6 +165,7 @@ add_dependencies(${PROJECT_NAME} aruco_pose_generate_messages_cpp)
 target_link_libraries(aruco_pose
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
+  aruco_lib
 )
 
 #############

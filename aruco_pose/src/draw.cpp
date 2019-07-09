@@ -4,7 +4,7 @@
 #include "draw.h"
 
 using namespace cv;
-using namespace cv::aruco;
+using namespace aruco_lib;
 
 static void _cvProjectPoints2( const CvMat* object_points, const CvMat* rotation_vector,
                        const CvMat* translation_vector, const CvMat* camera_matrix,
