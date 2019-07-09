@@ -52,7 +52,7 @@ using namespace cv;
  */
 void CharucoBoard::draw(Size outSize, OutputArray _img, int marginSize, int borderBits) {
 
-    CV_Assert(!outSize.empty());
+    CV_Assert(outSize.width > 0 && outSize.height > 0);
     CV_Assert(marginSize >= 0);
 
     _img.create(outSize, CV_8UC1);
