@@ -41,7 +41,7 @@ df -h
 get_image ${IMAGE_PATH} ${SOURCE_IMAGE}
 
 echo "Truncating image"
-truncate -s7G ${IMAGE_PATH}
+truncate -s2G ${IMAGE_PATH}
 echo "Resizing filesystem"
 DEV_IMAGE=$(losetup -Pf ${IMAGE_PATH} --show)
 echo "Waiting for partition table to settle"
