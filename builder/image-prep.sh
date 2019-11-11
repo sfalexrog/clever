@@ -24,13 +24,15 @@ get_image() {
   if [ ! -e "${BUILD_DIR}/${RPI_ZIP_NAME}" ]; then
     echo "Downloading original Linux distribution"
     wget --progress=dot:giga -O ${BUILD_DIR}/${RPI_ZIP_NAME} $2
-    echo "Downloading complete" \
+    echo "Downloading complete"
   else echo "Linux distribution already donwloaded"; fi
 
   echo "Unzipping Linux distribution image" \
   && unzip -p ${BUILD_DIR}/${RPI_ZIP_NAME} ${RPI_IMAGE_NAME} > $1 \
   && echo "Unzipping complete" \
   || (echo "Unzipping failed!"; exit 1)
+  echo "BUILD_DIR (${BUILD_DIR}) contents:"
+  ls -lah ${BUILD_DIR}
 }
 
 echo "Existing free space:"
@@ -59,6 +61,6 @@ sleep 0.5
 echo "Check and repair filesystem"
 e2fsck -fvy "${DEV_IMAGE}p2"
 echo "Expand filesystem"
-resize2f2 "${DEV_IMAGE}p2"
+resize2fs "${DEV_IMAGE}p2"
 echo "Unmounting loop device (again)"
 losetup -d ${DEV_IMAGE}
