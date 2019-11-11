@@ -1,11 +1,13 @@
 #!/bin/bash
 
+apt install -y wget fdisk mount
+
 SOURCE_IMAGE="https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip"
 
-if [[ -z ${TRAVIS_TAG} ]]; then IMAGE_VERSION="$(cd ${REPO_DIR}; git log --format=%h -1)"; else IMAGE_VERSION="${TRAVIS_TAG}"; fi
+if [[ -z ${TRAVIS_TAG} ]]; then IMAGE_VERSION="$(git log --format=%h -1)"; else IMAGE_VERSION="${TRAVIS_TAG}"; fi
 REPO_NAME="clever"
 IMAGE_NAME="${REPO_NAME}_${IMAGE_VERSION}.img"
-IMAGE_PATH="/images/${IMAGE_NAME}"
+IMAGE_PATH="images/${IMAGE_NAME}"
 
 get_image() {
   # TEMPLATE: get_image <IMAGE_PATH> <RPI_DONWLOAD_URL>
