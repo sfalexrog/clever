@@ -15,6 +15,12 @@ get_image() {
   local RPI_ZIP_NAME=$(basename $2)
   local RPI_IMAGE_NAME=$(echo ${RPI_ZIP_NAME} | sed 's/zip/img/')
 
+  echo "get_image(): BUILD_DIR is ${BUILD_DIR}"
+  echo "get_image(): RPI_ZIP_NAME is ${RPI_ZIP_NAME}"
+  echo "get_image(): RPI_IMAGE_NAME is ${RPI_IMAGE_NAME}"
+
+  mkdir -p ${BUILD_DIR}
+
   if [ ! -e "${BUILD_DIR}/${RPI_ZIP_NAME}" ]; then
     echo "Downloading original Linux distribution"
     wget --progress=dot:giga -O ${BUILD_DIR}/${RPI_ZIP_NAME} $2
@@ -26,6 +32,9 @@ get_image() {
   && echo "Unzipping complete" \
   || (echo "Unzipping failed!"; exit 1)
 }
+
+echo "Existing free space:"
+df -h
 
 get_image ${IMAGE_PATH} ${SOURCE_IMAGE}
 
