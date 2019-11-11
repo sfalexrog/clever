@@ -4,7 +4,7 @@ services:
   - docker
 env:
   global:
-    - DOCKER="sfalexrog/img-tool:qemu-update"
+    - DOCKER="sfalexrog/img-tool-arm:0.1-armhf"
     - TARGET_REPO="https://github.com/${TRAVIS_REPO_SLUG}.git"
     - if [[ -z ${TRAVIS_TAG} ]]; then IMAGE_VERSION="${TRAVIS_COMMIT}}"; else IMAGE_VERSION="${TRAVIS_TAG}"; fi
     - IMAGE_NAME="$(basename -s '.git' ${TARGET_REPO})_${IMAGE_VERSION}.img"
@@ -15,6 +15,10 @@ jobs:
   include:
     - stage: Build
       name: "Raspberry Pi Image Build"
+      os: linux
+      language: c
+      arch: arm64
+      dist: bionic
       cache:
         directories:
         - imgcache
