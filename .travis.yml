@@ -35,7 +35,7 @@ jobs:
             fi;
           fi
         - if [ -z ${SKIP_BUILD} ]; then
-            docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER};
+            sudo docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER};
           fi
       before_cache:
         - cp images/*.zip imgcache
