@@ -35,6 +35,7 @@ jobs:
             fi;
           fi
         - if [ -z ${SKIP_BUILD} ]; then
+            sudo builder/image-prep.sh &&
             sudo docker run --privileged --rm -v /dev:/dev -v $(pwd):/builder/repo -e TRAVIS_TAG="${TRAVIS_TAG}" ${DOCKER};
           fi
       before_cache:
