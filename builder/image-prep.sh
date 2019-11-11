@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt install -y wget fdisk mount
+apt install -y wget fdisk mount unzip
 
 SOURCE_IMAGE="https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip"
 
