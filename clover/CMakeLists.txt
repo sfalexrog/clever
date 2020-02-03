@@ -24,6 +24,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   image_transport
   cv_bridge
+  dynamic_reconfigure
 )
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -96,6 +97,10 @@ generate_messages(
   std_msgs  # Or other packages containing msgs
 )
 
+generate_dynamic_reconfigure_options(
+  cfg/FlowParams.cfg
+)
+
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -148,6 +153,8 @@ include_directories(
 add_library(${PROJECT_NAME}
   src/optical_flow.cpp
 )
+
+add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries

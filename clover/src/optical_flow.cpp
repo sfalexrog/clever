@@ -28,6 +28,9 @@
 #include <geometry_msgs/PointStamped.h>
 #include <geometry_msgs/TwistStamped.h>
 
+#include <dynamic_reconfigure/server.h>
+#include <clover/OptFlowConfig.h>
+
 using cv::Mat;
 
 class OpticalFlow : public nodelet::Nodelet
@@ -53,6 +56,8 @@ private:
 	tf2_ros::Buffer tf_buffer_;
 	tf2_ros::TransformListener tf_listener_;
 	bool calc_flow_gyro_;
+
+	std::shared_ptr<dynamic_reconfigure::Server<clover::OptFlowConfig>> dyn_srv_;
 
 	void onInit()
 	{
@@ -80,7 +85,19 @@ private:
 		flow_.distance = -1; // no distance sensor available
 		flow_.temperature = 0;
 
+		dyn_srv_ = std::make_shared<dynamic_reconfigure::Server<clover::OptFlowConfig>>(nh_priv);
+		dynamic_reconfigure::Server<clover::OptFlowConfig>::CallbackType cb;
+
+		cb = boost::bind(&OpticalFlow::paramCallback, this, _1, _2);
+		dyn_srv_->setCallback(cb);
+
 		NODELET_INFO("Optical Flow initialized");
+	}
+
+	void paramCallback(clover::OptFlowConfig& config, uint32_t level)
+	{
+		roi_ = config.roi;
+		roi_2_ = roi_ / 2;
 	}
 
 	void parseCameraInfo(const sensor_msgs::CameraInfoConstPtr &cinfo) {
